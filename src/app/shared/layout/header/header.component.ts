@@ -11,6 +11,7 @@ import { ProductType } from 'src/types/product.type';
 import { environment } from 'src/environments/environment';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs';
+import { CartType } from 'src/types/cart.type';
 
 @Component({
   selector: 'app-header',
@@ -54,6 +55,13 @@ export class HeaderComponent implements OnInit {
 
     this.authService.isLogged$.subscribe((isLoggedIn: boolean) => {
       this.isLogged = isLoggedIn;
+
+      if (isLoggedIn) {
+        this.updateCartCount();
+      } else {
+        this.count = 0;
+        this.cartService.setCount(0);
+      }
     });
 
     this.cartService.getCartCount()
@@ -62,6 +70,7 @@ export class HeaderComponent implements OnInit {
           throw new Error((data as DefaultResponseType).message);
         }
         this.count = (data as { count: number }).count;
+
 
       })
 
@@ -93,6 +102,8 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
+  
+
   changedSearchValue(newValue: string) {
     this.searchValue = newValue;
 
@@ -109,9 +120,7 @@ export class HeaderComponent implements OnInit {
   selectProduct(url: string) {
     this.router.navigate(['/product/' + url]);
     this.searchValue = '';
-    // this.searchField.setValue('');
     this.products = [];
-    // this.showedSearch = false;
   }
 
   changeShowedSearch(value: boolean) {
@@ -133,5 +142,15 @@ export class HeaderComponent implements OnInit {
       headerContent.classList.toggle('open');
     }
    
+  }
+
+  updateCartCount(): void {
+    this.cartService.getCartCount().subscribe((data: { count: number } | DefaultResponseType) => {
+      if ((data as DefaultResponseType).error !== undefined) {
+        throw new Error((data as DefaultResponseType).message);
+      }
+      this.count = (data as { count: number }).count;
+      this.cartService.setCount(this.count);
+    });
   }
 }

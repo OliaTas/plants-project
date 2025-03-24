@@ -12,6 +12,7 @@ export class CartService {
 
   private count: number = 0;
   count$: Subject<number> = new Subject<number>();
+  cart: CartType | null = null;
 
   constructor(private http: HttpClient) { }
 

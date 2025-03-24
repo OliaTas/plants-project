@@ -52,7 +52,7 @@
             </div>
         </div>
 
-        <div class="pagination" *ngIf="pages.length > 1">
+        <div class="pagination" *ngIf="pages.length > 0">
             <div class="pagination-arrow" (click)="openPrevPage()"
             [class.disabled]="activeParams.page ? activeParams.page === 1 : true">
                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -70,7 +70,7 @@
                     *ngFor="let page of pages">{{page}}</a>
             </div>
             <div class="pagination-arrow" (click)="openNextPage()"
-            [class.disabled]="activeParams.page ? activeParams.page === pages.length : true">
+            [class.disabled]="activeParams.page === pages.length">
                 <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M14.4301 19.3885C14.2401 19.3885 14.0501 19.3197 13.9001 19.1722C13.6101 18.8872 13.6101 18.4153 13.9001 18.1303L19.4401 12.6847L13.9001 7.23913C13.6101 6.95407 13.6101 6.48225 13.9001 6.19719C14.1901 5.91213 14.6701 5.91213 14.9601 6.19719L21.0301 12.1637C21.3201 12.4488 21.3201 12.9206 21.0301 13.2057L14.9601 19.1722C14.8101 19.3197 14.6201 19.3885 14.4301 19.3885Z"
